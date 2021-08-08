@@ -15,6 +15,7 @@ class SearchViewController: BaseUIViewController {
 
     private var mSearchViewModel = SearchViewModel()
     private let mDisposeBag = DisposeBag()
+    private var mIsLoadFetch = false
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setKeyboardNotification(scrollView: mSearchTableView)
@@ -40,6 +41,7 @@ class SearchViewController: BaseUIViewController {
 // MARK: - SearchViewModelDelegate
 extension SearchViewController: SearchViewModelDelegate {
     internal func onUpdateData(result: Bool) {
+        mIsLoadFetch = !mSearchViewModel.getIsEnd()
         mSearchTableView.reloadData()
 
         if result {
@@ -66,6 +68,16 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         } else {
             return UITableViewCell()
+        }
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+
+        if offsetY > contentHeight - scrollView.frame.height && !self.mSearchViewModel.getIsEnd() && self.mIsLoadFetch {
+            self.mIsLoadFetch = false
+            self.mSearchViewModel.fetchSearch("")
         }
     }
 }

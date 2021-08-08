@@ -19,6 +19,10 @@ class SearchViewModel {
     private var disposeBag = DisposeBag()
     private var searchResponse = SearchModel()
 
+    func getIsEnd() -> Bool {
+        return searchResponse.items?.count ?? 0 > searchResponse.total_count ?? 0
+    }
+
     func itemCount() -> Int {
         return self.searchResponse.items?.count ?? 0
     }
@@ -46,8 +50,13 @@ class SearchViewModel {
 
 extension SearchViewModel {
     func fetchSearch(_ keyword: String) {
-        startIndex += 1
-        searchKeyword = keyword
+        if keyword.isEmpty {
+            startIndex += 1
+        } else {
+            searchKeyword = keyword
+            startIndex = DEFAULT_SEARCH_PAGE
+            self.searchResponse.items?.removeAll()
+        }
 
         var parameters: [String: Any] = [:]
         parameters["q"] = searchKeyword
