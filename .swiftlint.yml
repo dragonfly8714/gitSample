@@ -1,0 +1,10 @@
+disabled_rules:
+  - line_length
+  - weak_delegate
+  - identifier_name
+excluded:
+  - Pods
+  - gitSampleTests
+  - gitSampleUITests
+  - gitSample/Model/*.swift
+opt_in_rules:
