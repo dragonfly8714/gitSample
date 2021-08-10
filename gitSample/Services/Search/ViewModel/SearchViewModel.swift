@@ -16,7 +16,6 @@ class SearchViewModel {
 
     private var startIndex = DEFAULT_SEARCH_PAGE
     private var searchKeyword = ""
-    private var disposeBag = DisposeBag()
     private var searchResponse = SearchModel()
 
     func getIsEnd() -> Bool {

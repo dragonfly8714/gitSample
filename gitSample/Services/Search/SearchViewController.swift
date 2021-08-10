@@ -44,11 +44,7 @@ extension SearchViewController: SearchViewModelDelegate {
         mIsLoadFetch = !mSearchViewModel.getIsEnd()
         mSearchTableView.reloadData()
 
-        if result {
-            mSearchNoneView.isHidden = true
-        } else {
-            mSearchNoneView.isHidden = false
-        }
+        mSearchNoneView.isHidden = result
     }
 }
 
